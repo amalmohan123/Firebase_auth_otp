@@ -1,8 +1,10 @@
 import 'package:fire_auth_otp/helpers/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../service/firebase_auth_methodes.dart';
 import '../sign_up_page/sign_up.dart';
 
 class Loginpage extends StatefulWidget {
@@ -15,7 +17,7 @@ class Loginpage extends StatefulWidget {
 class _LoginpageState extends State<Loginpage> {
 
 
-
+   final FirebaseAuthMethods _auth = FirebaseAuthMethods();
 
   final TextEditingController emailController = TextEditingController();
 
@@ -30,6 +32,22 @@ class _LoginpageState extends State<Loginpage> {
 
   @override
   Widget build(BuildContext context) {
+
+void signIn() async {
+      String email = emailController.text;
+      String password = passwordController.text;
+
+      User? user = await _auth.singInWithEmailAndpassword(email, password);
+
+      if (user != null) {
+        print('User is Successfully SignIn');
+
+        Navigator.pushNamed(context, "/Homepage");
+      } else {
+        print('Some error happend');
+      }
+    }
+
     return Scaffold(
       backgroundColor: ConstColors.loginBackgroundColor,
       body: SingleChildScrollView(
@@ -163,7 +181,9 @@ class _LoginpageState extends State<Loginpage> {
                     backgroundColor: Colors.transparent,
                     shadowColor: Colors.transparent,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    signIn();
+                  },
                   child: const Text(
                     'Sign in',
                     style: TextStyle(

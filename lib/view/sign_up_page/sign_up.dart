@@ -12,49 +12,40 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final FirebaseAuthMethods _auth = FirebaseAuthMethods();
 
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
-    final FirebaseAuthMethods _auth = FirebaseAuthMethods();
+  List images = [
+    "assets/Image/g.webp",
+    "assets/Image/f.png",
+    "assets/Image/x.webp",
+  ];
 
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
-
-    List images = [
-      "assets/Image/g.webp",
-      "assets/Image/f.png",
-      "assets/Image/x.webp",
-    ];
-
-
-    @override
-    void dispose() {
-      super.dispose();
-      emailController.dispose();
-      passwordController.dispose();
-    }
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-
-
-     void signUp() async { 
+    void signUp() async {
       String email = emailController.text;
       String password = passwordController.text;
 
-
       User? user = await _auth.singUpWithEmailAndpassword(email, password);
 
-      if (user != null){
+      if (user != null) {
         print('User is Successfully created');
 
         Navigator.pushNamed(context, "/Homepage");
-      }else{
+      } else {
         print('Some error happend');
       }
-
     }
-
-
 
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
@@ -225,8 +216,4 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
-  
-
-   
-
 }
