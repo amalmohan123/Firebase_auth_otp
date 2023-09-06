@@ -1,26 +1,29 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-
-import '../utils/show_snackbar.dart';
 
 class FirebaseAuthMethods {
-  final FirebaseAuth _auth;
-  FirebaseAuthMethods(this._auth);
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
-// Email sign up
-
-  Future<void> singUpWithEmail({
-    required String email,
-    required String password,
-    required BuildContext context,
-  }) async {
-    try{
-      await _auth.createUserWithEmailAndPassword(email: email, password: password);
-
-    }on FirebaseAuthException catch (e){
-      
-      showSnackbar(context,e.message!);
-
+  Future<User?> singUpWithEmailAndpassword(
+      String email, String password) async {
+    try {
+      UserCredential credential = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      return credential.user;
+    } catch (e) {
+      print("Same error occured");
     }
+    return null;
+  }
+
+  Future<User?> singInWithEmailAndpassword(
+      String email, String password) async {
+    try {
+      UserCredential credential = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      return credential.user;
+    } catch (e) {
+      print("Same error occured");
+    }
+    return null;
   }
 }

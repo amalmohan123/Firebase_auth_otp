@@ -1,3 +1,4 @@
+import 'package:fire_auth_otp/view/homepage/homepage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'firebase_options.dart';
@@ -23,7 +24,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: Loginpage(),
+ routes: {
+  '/':(context) => Loginpage(),
+  '/Homepage':(context) => const Homepage(),
+ },
     );
   }
 }

@@ -4,20 +4,20 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../../helpers/colors.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final TextEditingController passwordController = TextEditingController();
-    final TextEditingController emailController = TextEditingController();
+  State<SignUpPage> createState() => _SignUpPageState();
+}
 
-    // @override
-    // void dispose() {
-    //   super.dispose();
-    //   emailController.dispose();
-    //   passwordController.dispose();
-    // }
+class _SignUpPageState extends State<SignUpPage> {
+
+
+    final FirebaseAuthMethods _auth = FirebaseAuthMethods();
+
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
 
     List images = [
       "assets/Image/g.webp",
@@ -25,13 +25,36 @@ class SignUpPage extends StatelessWidget {
       "assets/Image/x.webp",
     ];
 
-    void SignUpUser() {
-      FirebaseAuthMethods(FirebaseAuth.instance).singUpWithEmail(
-        email: emailController.text,
-        password: passwordController.text,
-        context: context,
-      );
+
+    @override
+    void dispose() {
+      super.dispose();
+      emailController.dispose();
+      passwordController.dispose();
     }
+
+  @override
+  Widget build(BuildContext context) {
+
+
+     void signUp() async { 
+      String email = emailController.text;
+      String password = passwordController.text;
+
+
+      User? user = await _auth.singUpWithEmailAndpassword(email, password);
+
+      if (user != null){
+        print('User is Successfully created');
+
+        Navigator.pushNamed(context, "/Homepage");
+      }else{
+        print('Some error happend');
+      }
+
+    }
+
+
 
     double w = MediaQuery.of(context).size.width;
     double h = MediaQuery.of(context).size.height;
@@ -138,7 +161,7 @@ class SignUpPage extends StatelessWidget {
                     shadowColor: Colors.transparent,
                   ),
                   onPressed: () {
-                    SignUpUser();
+                    signUp();
                   },
                   child: const Text(
                     'Sign up',
@@ -202,4 +225,8 @@ class SignUpPage extends StatelessWidget {
       ),
     );
   }
+  
+
+   
+
 }

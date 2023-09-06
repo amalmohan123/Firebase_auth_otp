@@ -1,13 +1,32 @@
-
 import 'package:fire_auth_otp/helpers/colors.dart';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../sign_up_page/sign_up.dart';
 
-class Loginpage extends StatelessWidget {
-  const Loginpage({super.key});
+class Loginpage extends StatefulWidget {
+  Loginpage({super.key});
+
+  @override
+  State<Loginpage> createState() => _LoginpageState();
+}
+
+class _LoginpageState extends State<Loginpage> {
+
+
+
+
+  final TextEditingController emailController = TextEditingController();
+
+  final TextEditingController passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +85,7 @@ class Loginpage extends StatelessWidget {
                   ],
                 ),
                 child: TextFormField(
+                  controller: emailController,
                   decoration: InputDecoration(
                     hintText: 'Username',
                     hintStyle: TextStyle(),
@@ -98,6 +118,7 @@ class Loginpage extends StatelessWidget {
                   ],
                 ),
                 child: TextFormField(
+                  controller: passwordController,
                   decoration: InputDecoration(
                     hintText: 'Password',
                     enabledBorder: OutlineInputBorder(
@@ -184,4 +205,6 @@ class Loginpage extends StatelessWidget {
       ),
     );
   }
+
+
 }
