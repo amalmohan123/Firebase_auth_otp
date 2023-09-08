@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 
-void showSnackbar(BuildContext context, String text) {
+void showSnackbar(BuildContext context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      content: Text(text),
+      backgroundColor: Colors.red,
+      content: Text(
+        message,
+        style: TextStyle(
+          fontSize: 15,
+          fontWeight: FontWeight.bold,
+          
+        ),
+      ),
     ),
   );
 }

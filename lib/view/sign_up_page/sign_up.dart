@@ -1,4 +1,5 @@
 import 'package:fire_auth_otp/service/firebase_auth_methodes.dart';
+import 'package:fire_auth_otp/utils/show_snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final FirebaseAuthMethods _auth = FirebaseAuthMethods();
+  final FirebaseAuthMethods _auth = FirebaseAuthMethods(FirebaseAuth.instance);
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -32,18 +33,25 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    // void signUpUser()async {
+    //   FirebaseAuthMethods(FirebaseAuth.instance).signUpWithEmail(
+    //     email: emailController.text,
+    //     password: passwordController.text,
+    //     context: context,
+
+    //   );
+    // }
     void signUp() async {
       String email = emailController.text;
       String password = passwordController.text;
 
-      User? user = await _auth.singUpWithEmailAndpassword(email, password);
+      User? user =
+          await _auth.singUpWithEmailAndpassword(email, password, context);
 
       if (user != null) {
-        print('User is Successfully created');
+        showSnackbar(context, 'User is Successfully created');
 
         Navigator.pushNamed(context, "/Homepage");
-      } else {
-        print('Some error happend');
       }
     }
 
@@ -153,6 +161,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   onPressed: () {
                     signUp();
+                    // signUpUser();
                   },
                   child: const Text(
                     'Sign up',
@@ -196,20 +205,31 @@ class _SignUpPageState extends State<SignUpPage> {
               const SizedBox(
                 height: 10,
               ),
-              Wrap(
-                children: List.generate(
-                  3,
-                  (index) => Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: CircleAvatar(
-                      radius: 25,
-                      backgroundImage: AssetImage(
-                        images[index],
+              GestureDetector(
+                onTap: () async {
+                  await FirebaseAuthMethods(FirebaseAuth.instance)
+                      .signInWithGoogle(context);
+                      if(mounted){
+                        Navigator.pushNamed(context, "/ProfilePage");
+                      }
+                },
+                child: Container(
+                  child: Wrap(
+                    children: List.generate(
+                      3,
+                      (index) => Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: CircleAvatar(
+                          radius: 25,
+                          backgroundImage: AssetImage(
+                            images[index],
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

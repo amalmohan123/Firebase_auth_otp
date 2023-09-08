@@ -1,10 +1,11 @@
 import 'package:fire_auth_otp/helpers/colors.dart';
+import 'package:fire_auth_otp/service/firebase_auth_methodes.dart';
+import 'package:fire_auth_otp/utils/show_snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../service/firebase_auth_methodes.dart';
+
 import '../sign_up_page/sign_up.dart';
 
 class Loginpage extends StatefulWidget {
@@ -15,9 +16,7 @@ class Loginpage extends StatefulWidget {
 }
 
 class _LoginpageState extends State<Loginpage> {
-
-
-   final FirebaseAuthMethods _auth = FirebaseAuthMethods();
+  final FirebaseAuthMethods _auth = FirebaseAuthMethods(FirebaseAuth.instance);
 
   final TextEditingController emailController = TextEditingController();
 
@@ -32,20 +31,26 @@ class _LoginpageState extends State<Loginpage> {
 
   @override
   Widget build(BuildContext context) {
+    // void signInUser() {
+    //   FirebaseAuthMethods(FirebaseAuth.instance).signUpWithEmail(
+    //     email: emailController.text,
+    //     password: passwordController.text,
+    //     context: context,
+    //   );
+    // }
 
-void signIn() async {
+    void signIn() async {
       String email = emailController.text;
       String password = passwordController.text;
 
-      User? user = await _auth.singInWithEmailAndpassword(email, password);
+      User? user =
+          await _auth.singInWithEmailAndpassword(email, password, context);
 
       if (user != null) {
-        print('User is Successfully SignIn');
+        showSnackbar(context, 'User is Successfully SignIn');
 
         Navigator.pushNamed(context, "/Homepage");
-      } else {
-        print('Some error happend');
-      }
+      } 
     }
 
     return Scaffold(
@@ -225,6 +230,4 @@ void signIn() async {
       ),
     );
   }
-
-
 }

@@ -1,4 +1,5 @@
 import 'package:fire_auth_otp/view/homepage/homepage.dart';
+import 'package:fire_auth_otp/view/profile_page/profile_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'firebase_options.dart';
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
  routes: {
   '/':(context) => Loginpage(),
   '/Homepage':(context) => const Homepage(),
-  '/Loginpage':(context) => Loginpage()
+  '/Loginpage':(context) => Loginpage(),
+  '/ProfilePage':(context) => const ProfilePage()
  },
     );
   }
