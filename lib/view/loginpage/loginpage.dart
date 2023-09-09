@@ -1,21 +1,80 @@
+import 'dart:async';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:fire_auth_otp/helpers/colors.dart';
 import 'package:fire_auth_otp/service/firebase_auth_methodes.dart';
 import 'package:fire_auth_otp/utils/show_snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 import '../sign_up_page/sign_up.dart';
 
 class Loginpage extends StatefulWidget {
-  Loginpage({super.key});
+  const Loginpage({super.key});
 
   @override
   State<Loginpage> createState() => _LoginpageState();
 }
 
 class _LoginpageState extends State<Loginpage> {
+  late StreamSubscription subscription;
+
+  var isDeviceConnected = false;
+
+  bool isAlertSet = false;
+
+  @override
+  void initState() {
+    super.initState();
+    getConnectivity();
+  }
+
+  getConnectivity() {
+    subscription = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) async {
+      isDeviceConnected = await InternetConnectionChecker().hasConnection;
+
+      if (!isDeviceConnected && isAlertSet == false) {
+        showDialogBox();
+        setState(() {
+          isAlertSet = true;
+        });
+      }
+    });
+  }
+
+  showDialogBox() {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) => CupertinoAlertDialog(
+        title: const Text("No Connection"),
+        content: const Text("Please check your internet connectivity"),
+        actions: <Widget>[
+          TextButton(
+              onPressed: () async {
+                Navigator.pop(context, 'Cancel');
+                setState(() {
+                  isAlertSet = false;
+                });
+                isDeviceConnected =
+                    await InternetConnectionChecker().hasConnection;
+                if (!isDeviceConnected) {
+                  showDialogBox();
+                  setState(() {
+                    isAlertSet = true;
+                  });
+                }
+              },
+              child: const Text('OK'))
+        ],
+      ),
+    );
+  }
+
   final FirebaseAuthMethods _auth = FirebaseAuthMethods(FirebaseAuth.instance);
 
   final TextEditingController emailController = TextEditingController();
@@ -24,6 +83,7 @@ class _LoginpageState extends State<Loginpage> {
 
   @override
   void dispose() {
+    subscription.cancel();
     super.dispose();
     emailController.dispose();
     passwordController.dispose();
@@ -50,7 +110,7 @@ class _LoginpageState extends State<Loginpage> {
         showSnackbar(context, 'User is Successfully SignIn');
 
         Navigator.pushNamed(context, "/Homepage");
-      } 
+      }
     }
 
     return Scaffold(
