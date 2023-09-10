@@ -1,40 +1,79 @@
-import 'package:fire_auth_otp/utils/show_snackbar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+
+
+
+ import 'package:fire_auth_otp/utils/show_snackbar.dart';
+  import 'package:firebase_auth/firebase_auth.dart';
+  import 'package:flutter/src/widgets/framework.dart';
+  import 'package:google_sign_in/google_sign_in.dart';
+
 
 class FirebaseAuthMethods {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+    final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  FirebaseAuthMethods(FirebaseAuth instance);
+    FirebaseAuthMethods(FirebaseAuth instance);
 
-// SignUp
+  // SignUp
 
-  Future<User?> singUpWithEmailAndpassword(
-      String email, String password, BuildContext context) async {
-    try {
-      UserCredential credential = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      return credential.user;
-    } on FirebaseAuthException catch (e) {
-      showSnackbar(context, e.message!);
+    Future<User?> singUpWithEmailAndpassword(
+        String email, String password, BuildContext context) async {
+      try {
+        UserCredential credential = await _auth.createUserWithEmailAndPassword(
+            email: email, password: password);
+        return credential.user;
+      } on FirebaseAuthException catch (e) {
+        showSnackbar(context, e.message!);
+      }
+      return null;
     }
-    return null;
+
+  //SignIn
+
+    Future<User?> singInWithEmailAndpassword(
+        String email, String password, BuildContext context) async {
+      try {
+        UserCredential credential = await _auth.signInWithEmailAndPassword(
+            email: email, password: password);
+        return credential.user;
+      } on FirebaseAuthException catch (e) {
+        showSnackbar(context, e.message!);
+      }
+      return null;
+    }
+
+  // Google SignUp
+
+    Future<void> signInWithGoogle(BuildContext context) async {
+      try {
+        FirebaseAuth auth = FirebaseAuth.instance;
+        final GoogleSignIn googleSignIn = GoogleSignIn();
+        final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser!.authentication;
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+        final UserCredential userCredential =
+            await auth.signInWithCredential(credential);
+      } on FirebaseAuthException catch (e) {
+        showSnackbar(context, e.message!);
+      }
+    }
   }
 
-//SignIn
 
-  Future<User?> singInWithEmailAndpassword(
-      String email, String password, BuildContext context) async {
-    try {
-      UserCredential credential = await _auth.signInWithEmailAndPassword(
-          email: email, password: password);
-      return credential.user;
-    } on FirebaseAuthException catch (e) {
-      showSnackbar(context, e.message!);
-    }
-    return null;
-  }
+
+
+
+
+
+
+
+
+
+
+
+
 
 //   Future<void> signInWithGoogle(BuildContext context) async {
 //     try {
@@ -54,43 +93,6 @@ class FirebaseAuthMethods {
 //       showSnackbar(context, e.message!);
 //     }
 //   }
-
-  Future<void> signInWithGoogle(BuildContext context) async {
-    try {
-      FirebaseAuth auth = FirebaseAuth.instance;
-      final GoogleSignIn googleSignIn = GoogleSignIn();
-      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser!.authentication;
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-      final UserCredential userCredential =
-          await auth.signInWithCredential(credential);
-    } on FirebaseAuthException catch (e) {
-      showSnackbar(context, e.message!);
-    }
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import 'package:fire_auth_otp/utils/show_snackbar.dart';
 // import 'package:firebase_auth/firebase_auth.dart';

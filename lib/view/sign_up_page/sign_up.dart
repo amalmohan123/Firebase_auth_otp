@@ -18,11 +18,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  // List images = [
-  //   "assets/Image/g.webp",
-  //   "assets/Image/f.png",
-  //   "assets/Image/x.webp",
-  // ];
+
 
   @override
   void dispose() {
@@ -33,14 +29,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    // void signUpUser()async {
-    //   FirebaseAuthMethods(FirebaseAuth.instance).signUpWithEmail(
-    //     email: emailController.text,
-    //     password: passwordController.text,
-    //     context: context,
-
-    //   );
-    // }
+ 
     void signUp() async {
       String email = emailController.text;
       String password = passwordController.text;
@@ -205,31 +194,7 @@ class _SignUpPageState extends State<SignUpPage> {
               const SizedBox(
                 height: 10,
               ),
-              // GestureDetector(
-              //   onTap: () async {
-              //     await FirebaseAuthMethods(FirebaseAuth.instance)
-              //         .signInWithGoogle(context);
-              //         if(mounted){
-              //           Navigator.pushNamed(context, "/ProfilePage");
-              //         }
-              //   },
-              //   child: Container(
-              //     child: Wrap(
-              //       children: List.generate(
-              //         3,
-              //         (index) => Padding(
-              //           padding: const EdgeInsets.all(10.0),
-              //           child: CircleAvatar(
-              //             radius: 25,
-              //             backgroundImage: AssetImage(
-              //               images[index],
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
+          
               GestureDetector(
                 onTap: () async {
                   await FirebaseAuthMethods(FirebaseAuth.instance)
@@ -255,3 +220,6 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 }
+
+
+

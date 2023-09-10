@@ -2,6 +2,8 @@ import 'package:fire_auth_otp/view/homepage/homepage.dart';
 import 'package:fire_auth_otp/view/profile_page/profile_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'controller/firebase_provider.dart';
 import 'firebase_options.dart';
 import 'view/loginpage/loginpage.dart';
 
@@ -10,7 +12,12 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AuthProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

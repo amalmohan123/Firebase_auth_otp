@@ -91,13 +91,6 @@ class _LoginpageState extends State<Loginpage> {
 
   @override
   Widget build(BuildContext context) {
-    // void signInUser() {
-    //   FirebaseAuthMethods(FirebaseAuth.instance).signUpWithEmail(
-    //     email: emailController.text,
-    //     password: passwordController.text,
-    //     context: context,
-    //   );
-    // }
 
     void signIn() async {
       String email = emailController.text;
@@ -169,6 +162,7 @@ class _LoginpageState extends State<Loginpage> {
                 ),
                 child: TextFormField(
                   controller: emailController,
+ 
                   decoration: InputDecoration(
                     hintText: 'Username',
                     hintStyle: TextStyle(),
@@ -291,3 +285,12 @@ class _LoginpageState extends State<Loginpage> {
     );
   }
 }
+
+
+
+
+
+
+
+
+ 
