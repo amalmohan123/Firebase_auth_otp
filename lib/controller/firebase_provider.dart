@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+
+import '../service/firebase_auth_methodes.dart';
 
 class AuthProvider extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -32,37 +33,13 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> signInWithGoogle(BuildContext context) async {
-    try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser!.authentication;
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-      await _auth.signInWithCredential(credential);
-      notifyListeners();
-    } catch (e) {
-      throw e;
-    }
-  }
-
-  void signOut() {
-    _auth.signOut();
+    await FirebaseAuthMethods(FirebaseAuth.instance).signInWithGoogle(context);
     notifyListeners();
   }
 
-var isDeviceConnected = false;
-  bool isAlertSet = false;
 
-  void setDeviceConnected(bool isConnected) {
-    isDeviceConnected = isConnected;
-    notifyListeners();
-  }
 
-  void setAlert(bool showAlert) {
-    isAlertSet = showAlert;
-    notifyListeners();
-  }
 
+
+  
 }

@@ -1,3 +1,4 @@
+import 'package:fire_auth_otp/controller/homepage_provider.dart';
 import 'package:fire_auth_otp/view/homepage/homepage.dart';
 import 'package:fire_auth_otp/view/profile_page/profile_page.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,8 +14,11 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => AuthProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => HomepageModel())
+      ],
       child: const MyApp(),
     ),
   );
@@ -32,12 +36,12 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
- routes: {
-  '/':(context) => Loginpage(),
-  '/Homepage':(context) => const Homepage(),
-  '/Loginpage':(context) => Loginpage(),
-  '/ProfilePage':(context) => const ProfilePage()
- },
+      routes: {
+        '/': (context) => Loginpage(),
+        '/Homepage': (context) => const Homepage(),
+        '/Loginpage': (context) => Loginpage(),
+        '/ProfilePage': (context) => const ProfilePage()
+      },
     );
   }
 }
