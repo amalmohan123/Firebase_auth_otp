@@ -38,7 +38,7 @@ class FirebaseAuthMethods {
 
   // Google SignUp
 
-  Future<void> signInWithGoogle(BuildContext context) async {
+  Future<bool?> signInWithGoogle(BuildContext context) async {
     try {
       FirebaseAuth auth = FirebaseAuth.instance;
       final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -51,8 +51,10 @@ class FirebaseAuthMethods {
       );
       final UserCredential userCredential =
           await auth.signInWithCredential(credential);
+      return userCredential.user != null ? true : false;
     } on FirebaseAuthException catch (e) {
       showSnackbar(context, e.message!);
+      return false;
     }
   }
 }

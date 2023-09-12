@@ -1,12 +1,14 @@
 import 'package:fire_auth_otp/controller/firebase_provider.dart';
 import 'package:fire_auth_otp/service/firebase_auth_methodes.dart';
 import 'package:fire_auth_otp/utils/show_snackbar.dart';
+import 'package:fire_auth_otp/view/sign_up_page/widgets/signup_email.dart';
+import 'package:fire_auth_otp/view/sign_up_page/widgets/signup_image.dart';
+import 'package:fire_auth_otp/view/sign_up_page/widgets/signup_password.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../helpers/colors.dart';
-
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -16,7 +18,6 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  
   final FirebaseAuthMethods _auth = FirebaseAuthMethods(FirebaseAuth.instance);
 
   final TextEditingController emailController = TextEditingController();
@@ -50,181 +51,111 @@ class _SignUpPageState extends State<SignUpPage> {
 
     return ChangeNotifierProvider(
       create: (context) => AuthProvider(),
-      child: Consumer<AuthProvider>(builder: (context, value, child) {
-        return Scaffold(
-          backgroundColor: ConstColors.loginBackgroundColor,
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 60),
-              child: Column(
-                children: [
-                  Container(
-                    width: w,
-                    height: h * 0.33,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage(
-                            "assets/Image/student_fire_new-removebg.png",
-                          ),
-                          fit: BoxFit.cover),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 60,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(right: 20, left: 20),
-                    decoration: BoxDecoration(
-                      color: ConstColors.loginBackgroundColor,
-                      borderRadius: BorderRadius.circular(30),
-                      boxShadow: [
-                        BoxShadow(
-                          spreadRadius: 7,
-                          blurRadius: 8,
-                          offset: const Offset(1, 1),
-                          color: const Color.fromARGB(255, 114, 193, 174)
-                              .withOpacity(.8),
-                        )
-                      ],
-                    ),
-                    child: TextFormField(
-                      controller: emailController,
-                      decoration: InputDecoration(
-                        hintText: 'Your email id',
-                        
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: const BorderSide(
-                              color: ConstColors.loginBackgroundColor,
-                              width: 1.5),
+      child: Consumer<AuthProvider>(
+        builder: (context, value, child) {
+          return Scaffold(
+            backgroundColor: ConstColors.loginBackgroundColor,
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 60),
+                child: Column(
+                  children: [
+                    SignUpImage(w: w, h: h),
+                    const SizedBox(height: 60),
+                    SignUpEmail(emailController: emailController),
+                    const SizedBox(height: 30),
+                    SignUpPassword(passwordController: passwordController),
+                    const SizedBox(height: 36),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color.fromARGB(255, 9, 231, 205),
+                            Color.fromARGB(255, 53, 226, 228),
+                            Color.fromARGB(255, 4, 250, 188),
+                          ],
                         ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(160, 50),
+                          backgroundColor: Colors.transparent,
+                          shadowColor: Colors.transparent,
+                        ),
+                        onPressed: () {
+                          signUp();
+                        },
+                        child: const Text(
+                          'Sign up',
+                          style: TextStyle(
+                              color: ConstColors.loginPageText,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 30),
-                  Container(
-                    margin: const EdgeInsets.only(right: 20, left: 20),
-                    decoration: BoxDecoration(
-                      color: ConstColors.loginBackgroundColor,
-                      borderRadius: BorderRadius.circular(30),
-                      boxShadow: [
-                        BoxShadow(
-                          spreadRadius: 7,
-                          blurRadius: 8,
-                          offset: const Offset(1, 1),
-                          color: const Color.fromARGB(255, 114, 193, 174)
-                              .withOpacity(.8),
-                        ),
-                      ],
-                    ),
-                    child: TextFormField(
-                      controller: passwordController,
-                      decoration: InputDecoration(
-                        hintText: 'Password',
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: const BorderSide(
-                              color: ConstColors.loginBackgroundColor,
-                              width: 1.5),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 36),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      gradient: const LinearGradient(
-                        colors: [
-                          Color.fromARGB(255, 9, 231, 205),
-                          Color.fromARGB(255, 53, 226, 228),
-                          Color.fromARGB(255, 4, 250, 188),
+                    const SizedBox(height: 20),
+                    RichText(
+                      text: TextSpan(
+                        text: "Have an account?",
+                        style: const TextStyle(
+                            color: ConstColors.blackColor, fontSize: 15),
+                        children: [
+                          TextSpan(
+                            text: '  Go back',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: ConstColors.blackColor,
+                                fontSize: 18),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.of(context).pop();
+                              },
+                          )
                         ],
                       ),
                     ),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(160, 50),
-                        backgroundColor: Colors.transparent,
-                        shadowColor: Colors.transparent,
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Text(
+                      'Sign up using on the following methods.',
+                      style: TextStyle(
+                        color: ConstColors.blackColor,
                       ),
-                      onPressed: () {
-                        signUp();
-                        // signUpUser();
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        bool? issuccess = await Provider.of<AuthProvider>(context,
+                                listen: false)
+                            .signInWithGoogle(context);
+                        // await FirebaseAuthMethods(FirebaseAuth.instance)
+                        //     .signInWithGoogle(context);
+                        if (issuccess ?? false) {
+                          Navigator.pushNamed(context, "/ProfilePage");
+                        }
                       },
-                      child: const Text(
-                        'Sign up',
-                        style: TextStyle(
-                            color: ConstColors.loginPageText,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            radius: 30,
+                            backgroundImage: AssetImage("assets/Image/g.webp"),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  RichText(
-                    text: TextSpan(
-                      text: "Have an account?",
-                      style: const TextStyle(
-                          color: ConstColors.blackColor, fontSize: 15),
-                      children: [
-                        TextSpan(
-                          text: '  Go back',
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: ConstColors.blackColor,
-                              fontSize: 18),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Navigator.of(context).pop();
-                            },
-                        )
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Text(
-                    'Sign up using on the following methods.',
-                    style: TextStyle(
-                      color: ConstColors.blackColor,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      Provider.of<AuthProvider>(context,listen: false).signInWithGoogle(context);
-                      // await FirebaseAuthMethods(FirebaseAuth.instance)
-                      //     .signInWithGoogle(context);
-                      if (mounted) {
-                        Navigator.pushNamed(context, "/ProfilePage");
-                      }
-                    },
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CircleAvatar(
-                          radius: 30,
-                          backgroundImage: AssetImage("assets/Image/g.webp"),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      },),
+          );
+        },
+      ),
     );
   }
 }

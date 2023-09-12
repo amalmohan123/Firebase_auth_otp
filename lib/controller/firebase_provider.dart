@@ -32,9 +32,10 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> signInWithGoogle(BuildContext context) async {
-    await FirebaseAuthMethods(FirebaseAuth.instance).signInWithGoogle(context);
+  Future<bool?> signInWithGoogle(BuildContext context) async {
+  bool? issuccecss = await FirebaseAuthMethods(FirebaseAuth.instance).signInWithGoogle(context);
     notifyListeners();
+  return issuccecss;
   }
 
 

@@ -5,6 +5,8 @@ import 'package:fire_auth_otp/controller/firebase_provider.dart';
 import 'package:fire_auth_otp/helpers/colors.dart';
 import 'package:fire_auth_otp/service/firebase_auth_methodes.dart';
 import 'package:fire_auth_otp/utils/show_snackbar.dart';
+import 'package:fire_auth_otp/view/loginpage/widgets/signin_password.dart';
+import 'package:fire_auth_otp/view/loginpage/widgets/signin_username.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -84,6 +86,7 @@ class _LoginpageState extends State<Loginpage> {
 
   @override
   void dispose() {
+    
     subscription.cancel();
     super.dispose();
     emailController.dispose();
@@ -135,69 +138,9 @@ class _LoginpageState extends State<Loginpage> {
                     ),
                   ),
                   const SizedBox(height: 35),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: ConstColors.loginBackgroundColor,
-                      borderRadius: BorderRadius.circular(30),
-                      boxShadow: [
-                        BoxShadow(
-                          spreadRadius: 7,
-                          blurRadius: 8,
-                          offset: const Offset(1, 1),
-                          color: const Color.fromARGB(255, 114, 193, 174)
-                              .withOpacity(.8),
-                        )
-                      ],
-                    ),
-                    child: TextFormField(
-                      controller: emailController,
-                      decoration: InputDecoration(
-                        hintText: 'Username',
-                        hintStyle: TextStyle(),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: const BorderSide(
-                            color: ConstColors.loginBackgroundColor,
-                            width: 1.5,
-                          ),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
-                    ),
-                  ),
+                  SignInUsername(emailController: emailController),
                   const SizedBox(height: 30),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: ConstColors.loginBackgroundColor,
-                      borderRadius: BorderRadius.circular(30),
-                      boxShadow: [
-                        BoxShadow(
-                          spreadRadius: 7,
-                          blurRadius: 8,
-                          offset: const Offset(1, 1),
-                          color: const Color.fromARGB(255, 114, 193, 174)
-                              .withOpacity(.8),
-                        )
-                      ],
-                    ),
-                    child: TextFormField(
-                      controller: passwordController,
-                      decoration: InputDecoration(
-                        hintText: 'Password',
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: const BorderSide(
-                              color: ConstColors.loginBackgroundColor,
-                              width: 1.5),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
-                    ),
-                  ),
+                  SignInpasswod(passwordController: passwordController),
                   const SizedBox(height: 20),
                   Row(
                     children: [
@@ -291,4 +234,6 @@ class _LoginpageState extends State<Loginpage> {
     }
   }
 }
+
+
 

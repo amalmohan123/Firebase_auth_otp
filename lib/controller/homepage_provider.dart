@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class HomepageModel extends ChangeNotifier {
   Uint8List? image;
 
-  void setImage(Uint8List img) {
+  void  setImage(Uint8List img) {
     image = img;
     notifyListeners();
   }
@@ -13,5 +13,6 @@ class HomepageModel extends ChangeNotifier {
   void signOut(BuildContext context) {
     FirebaseAuth.instance.signOut();
     Navigator.pushNamed(context, "/Loginpage");
+    notifyListeners();
   }
 }
