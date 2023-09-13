@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:fire_auth_otp/controller/firebase_provider.dart';
 import 'package:fire_auth_otp/helpers/colors.dart';
@@ -86,7 +85,6 @@ class _LoginpageState extends State<Loginpage> {
 
   @override
   void dispose() {
-    
     subscription.cancel();
     super.dispose();
     emailController.dispose();
@@ -97,126 +95,128 @@ class _LoginpageState extends State<Loginpage> {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => AuthProvider(),
-      child: Consumer<AuthProvider>(builder: (context, value, child) {
-        return Scaffold(
-          backgroundColor: ConstColors.loginBackgroundColor,
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 130),
-                    child: SizedBox(
-                      width: 400,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Hello",
-                            style: GoogleFonts.acme(
-                              fontSize: 60,
-                              color: const Color.fromARGB(255, 39, 0, 122),
+      child: Consumer<AuthProvider>(
+        builder: (context, value, child) {
+          return Scaffold(
+            backgroundColor: ConstColors.loginBackgroundColor,
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 130),
+                      child: SizedBox(
+                        width: 400,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Hello",
+                              style: GoogleFonts.acme(
+                                fontSize: 60,
+                                color: const Color.fromARGB(255, 39, 0, 122),
+                              ),
                             ),
-                          ),
-                          Text(
-                            "Welcome",
-                            style: GoogleFonts.acme(
-                              fontSize: 60,
-                              color: ConstColors.loginPageText,
-                            ),
-                          ),
-                          Text(
-                            "Sign into your account",
-                            style: GoogleFonts.acme(
-                                fontSize: 20,
+                            Text(
+                              "Welcome",
+                              style: GoogleFonts.acme(
+                                fontSize: 60,
                                 color: ConstColors.loginPageText,
-                                fontWeight: FontWeight.w400),
-                          ),
-                        ],
+                              ),
+                            ),
+                            Text(
+                              "Sign into your account",
+                              style: GoogleFonts.acme(
+                                  fontSize: 20,
+                                  color: ConstColors.loginPageText,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 35),
-                  SignInUsername(emailController: emailController),
-                  const SizedBox(height: 30),
-                  SignInpasswod(passwordController: passwordController),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(),
-                      ),
-                      const Text(
-                        'Forgot your Password?',
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      gradient: const LinearGradient(
-                        colors: [
-                          Color.fromARGB(255, 9, 231, 205),
-                          Color.fromARGB(255, 53, 226, 228),
-                          Color.fromARGB(255, 4, 250, 188),
-                        ],
-                      ),
-                    ),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(160, 50),
-                        backgroundColor: Colors.transparent,
-                        shadowColor: Colors.transparent,
-                      ),
-                      onPressed: () {
-                        signIn();
-                      },
-                      child: const Text(
-                        'Sign in',
-                        style: TextStyle(
-                            color: ConstColors.loginPageText,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 50),
-                  RichText(
-                    text: TextSpan(
-                      text: "Don't have an account?",
-                      style: const TextStyle(
-                          color: Color.fromARGB(255, 77, 100, 105),
-                          fontSize: 18),
+                    const SizedBox(height: 35),
+                    SignInUsername(emailController: emailController),
+                    const SizedBox(height: 30),
+                    SignInpasswod(passwordController: passwordController),
+                    const SizedBox(height: 20),
+                    Row(
                       children: [
-                        TextSpan(
-                          text: ' Create',
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: ConstColors.blackColor,
-                              fontSize: 18),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const SignUpPage(),
-                                ),
-                              );
-                            },
+                        Expanded(
+                          child: Container(),
+                        ),
+                        const Text(
+                          'Forgot your Password?',
                         )
                       ],
                     ),
-                  )
-                ],
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color.fromARGB(255, 9, 231, 205),
+                            Color.fromARGB(255, 53, 226, 228),
+                            Color.fromARGB(255, 4, 250, 188),
+                          ],
+                        ),
+                      ),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(160, 50),
+                          backgroundColor: Colors.transparent,
+                          shadowColor: Colors.transparent,
+                        ),
+                        onPressed: () {
+                          signIn();
+                        },
+                        child: const Text(
+                          'Sign in',
+                          style: TextStyle(
+                              color: ConstColors.loginPageText,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 50),
+                    RichText(
+                      text: TextSpan(
+                        text: "Don't have an account?",
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 77, 100, 105),
+                            fontSize: 18),
+                        children: [
+                          TextSpan(
+                            text: ' Create',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: ConstColors.blackColor,
+                                fontSize: 18),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const SignUpPage(),
+                                  ),
+                                );
+                              },
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      }),
+          );
+        },
+      ),
     );
   }
 
@@ -234,6 +234,3 @@ class _LoginpageState extends State<Loginpage> {
     }
   }
 }
-
-
-
